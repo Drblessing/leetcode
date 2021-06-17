@@ -3,14 +3,20 @@ class Solution:
 
         ans = []
 
-        def _backtrack(S='', l=0, r=0):
+        def _backtrack(S: str = '', l: int = 0, r: int = 0) -> None:
 
-            if len(S) == 2 * n: ans.append(S)
+            if len(S) == n * 2:
+                ans.append(S)
 
-            if l < n: _backtrack(S + '(', l + 1, r)
+            elif l < n:
+                _backtrack(S + '(', l + 1, r)
 
             if r < l: _backtrack(S + ')', l, r + 1)
 
         _backtrack()
 
         return ans
+
+
+
+
