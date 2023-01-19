@@ -1,6 +1,10 @@
 class TrieNode:
+    # TrieNode class
+    # Contains children and isEnd
     def __init__(self):
-        self.children = {}
+        # Default dict to automatically create new children
+        # when inserting letter
+        self.children = defaultdict(TrieNode)
         self.isEnd = False
 
 
@@ -11,11 +15,9 @@ class Trie:
     def insert(self, word: str) -> None:
         # Iterate over letters adding children
         cur = self.root
-
         for letter in word:
-            # Add letter if not present
-            if letter not in cur.children:
-                cur.children[letter] = TrieNode()
+            # Automatically add trie node to letter if not present
+            # Then containue down the chain
             cur = cur.children[letter]
         cur.isEnd = True
 
