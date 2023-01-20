@@ -1,19 +1,14 @@
 class Solution:
     def climbStairs(self, n: int) -> int:
-        # climbStairs(n) = climbStairs(n-2) + climbStairs(n-1)
-        # Optimal substructure property
-        # therefore we can use DP
-        # climbStairs(1) = 1
-        # climbStairs(2) = 2
-        #
-        # Solution
-        # 1. Calculate base solutions
-        # 2. Iterate over number of stairs and calculate final answer
+        # Dynamic Programming
+        # 1. dp[n] = dp[n-1] + dp[n-2]
+        # 2. Base Cases: dp[1] = 1, dp[2] = 2
 
-        if n == 1:
-            return 1
+        dp = []
+        dp.extend([0, 1, 2])
+        if n == 1 or n == 2:
+            return dp[n]
 
-        a, b = 1, 2
-        for i in range(n - 2):
-            a, b = b, a + b
-        return b
+        for i in range(3, n + 1):
+            dp.append(dp[i - 1] + dp[i - 2])
+        return dp[n]
