@@ -1,4 +1,4 @@
 class Solution:
     def mySqrt(self, x: int) -> int:
-        return int(x**(1/2)) 
-        
+        print("test")
+        return int(x ** (1 / 2))
