@@ -5,6 +5,7 @@ class Solution:
     def getSumAbsoluteDifferences(self, nums: list[int]) -> list[int]:
         """Calculated the sum of absolute differences for each index in a list."""
         n = len(nums)
+        # Create a list of zeros with the same length as nums
         res = [0] * n
         for i in range(1, n):
             res[0] += nums[i] - nums[0]
