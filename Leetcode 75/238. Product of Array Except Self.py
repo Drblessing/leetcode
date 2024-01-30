@@ -12,6 +12,7 @@ class Solution:
         for i in range(len(nums) - 2, -1, -1):
             backward.append(backward[-1] * nums[i])
         backward = backward[::-1]
+        test = 3
         # Calculate product except self
         result = []
         for i in range(len(nums)):
