@@ -4,7 +4,7 @@ class Solution:
         c = Counter(arr)
         occur = c.values()
 
-        # Check the values in occur are all unique
+        # Check if the values in occur are all unique
         if len(occur) == len(set(occur)):
             return True
         return False
