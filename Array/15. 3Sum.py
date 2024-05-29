@@ -1,5 +1,5 @@
 class Solution:
-    def threeSum(self, nums: List[int]) -> List[List[int]]:
+    def threeSum(self, nums: list[int]) -> list[list[int]]:
         # 1. Sort nums
         # 2. Iterate through nums
         # 3. Use converging search to find potential threeSums
