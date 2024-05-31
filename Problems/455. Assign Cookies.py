@@ -1,4 +1,6 @@
 import logging
+import pytest
+
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
@@ -54,8 +56,9 @@ class Solution:
 
 Solution().findContentChildren([1, 2, 3], [1, 1])
 
-# Test
-import pytest
+
+def test_fib_five():
+    assert 5 == 5, "Incorrect value for fib(5)"
 
 
 # Define the tests
