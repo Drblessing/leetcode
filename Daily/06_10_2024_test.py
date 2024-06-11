@@ -42,4 +42,7 @@ def test_relativeSortArray():
     assert solution.relativeSortArray(arr1, arr2) == [22, 28, 8, 6, 17, 44]
 
     print("All tests passed.")
-    return True
+
+
+# Time Complexity: O(nlogn)
+# Space Complexity: O(n)
