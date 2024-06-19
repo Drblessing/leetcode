@@ -3,7 +3,7 @@ import bisect
 
 class Solution:
     def maxProfitAssignment(
-        self, difficulty: List[int], profit: List[int], worker: List[int]
+        self, difficulty: list[int], profit: list[int], worker: list[int]
     ) -> int:
         # Combine difficulty and profit, and sort by difficulty
         jobs = sorted(zip(difficulty, profit))
