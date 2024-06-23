@@ -1,5 +1,5 @@
 class Solution:
-    def numberOfSubarrays(self, nums: List[int], k: int) -> int:
+    def numberOfSubarrays(self, nums: list[int], k: int) -> int:
         # Initialize variables
         odd_count = 0  # Running count of odd numbers
         result = 0  # Total number of valid subarrays
@@ -18,3 +18,12 @@ class Solution:
             count_map[odd_count] = count_map.get(odd_count, 0) + 1
 
         return result
+
+
+# Time Complexity: O(n)
+# Space Complexity: O(n)
+
+if __name__ == "__main__":
+    nums = [2, 2, 2, 1, 2, 2, 1, 2, 2, 2]
+    k = 2
+    print(Solution().numberOfSubarrays(nums, k))  # Output: 2
