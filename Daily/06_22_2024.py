@@ -5,7 +5,7 @@ class Solution:
         result = 0  # Total number of valid subarrays
         count_map = {0: 1}  # Hash map to store counts of odd number sums
 
-        for num in nums:
+        for i, num in enumerate(nums):
             # Increment odd_count if the number is odd
             if num % 2 == 1:
                 odd_count += 1
