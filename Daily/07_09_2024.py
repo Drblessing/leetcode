@@ -49,7 +49,9 @@ class TestSolution(unittest.TestCase):
             self.solution.averageWaitingTime(customers), expected, places=5
         )
 
-    # Add more test cases as needed
+    def test_dummy(self):
+        # Assert 2 == 2
+        self.assertEqual(2, 2)
 
 
 if __name__ == "__main__":
