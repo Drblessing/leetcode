@@ -4,6 +4,7 @@ import unittest
 
 class Solution:
     BASE = 26
+    MAX_TITLE_LENGTH = 7
 
     @staticmethod
     def letter_to_number(letter: str) -> int:
@@ -36,6 +37,10 @@ class Solution:
         Raises:
             ValueError: If the input contains non-alphabetic characters
         """
+        if len(column_title) > Solution.MAX_TITLE_LENGTH:
+            raise ValueError(
+                f"Invalid column title: {column_title}. Title should contain at most {Solution.MAX_TITLE_LENGTH} characters."
+            )
         if not column_title:
             raise ValueError("Invalid column title: Empty string.")
         if not Solution.is_uppercase_letters(column_title):
