@@ -26,7 +26,7 @@ class Solution:
             # The chef cannot start an order before the arrival time of the customer.
             next_idle_time = max(next_idle_time, arrival_time) + order_time
             # next_idle_time becomes the time the chef finishes the order for the current customer
-            # the wait time is the finish time - arrival time
+            # the wait time ies the finish time - arrival time
             cum_wait_tim += next_idle_time - arrival_time
         return cum_wait_tim / len(customers)
 
