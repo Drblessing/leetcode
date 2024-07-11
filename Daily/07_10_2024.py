@@ -13,7 +13,7 @@ class Solution:
         if (log == "./") or (log == "../"):
             return True
         # Log too long
-        elif len(log) > 10:
+        elif len(log) > Solution.MAX_LOG_LENGTH:
             return False
         # Valid folder
         elif (
@@ -62,6 +62,17 @@ class TestSolution(unittest.TestCase):
             self.solution.minOperations(["d1/", "d2/", "./", "d3/", "../", "d31/"]), 3
         )
         self.assertEqual(self.solution.minOperations(["d1/", "../", "../", "../"]), 0)
+
+    def test_empty_logs(self):
+        self.assertEqual(self.solution.minOperations([]), 0)
+
+    def test_error_logs(self):
+        self.assertRaises(
+            ValueError, self.solution.minOperations, ["invalid/operation"]
+        )
+        self.assertRaises(
+            ValueError, self.solution.minOperations, ["./", "invalid/operation"]
+        )
 
 
 if __name__ == "__main__":
