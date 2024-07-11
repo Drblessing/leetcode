@@ -1,3 +1,4 @@
+import unittest
 from collections import deque
 
 
@@ -19,9 +20,27 @@ class Solution:
                 # pop "("
                 stack.pop()
                 # reverse string and append
-                stack.extend(reversed(substring))
+                stack.extend(substring)
             else:
                 stack.append(l)
 
-        print(stack)
-        return "yo"
+        return "".join(stack)
+
+
+class TestSolution(unittest.TestCase):
+    def setUp(self):
+        self.solution = Solution()
+
+    def test_reverseParentheses(self):
+        self.assertEqual(self.solution.reverseParentheses("(abcd)"), "dcba")
+        self.assertEqual(self.solution.reverseParentheses("(u(love)i)"), "iloveu")
+        self.assertEqual(self.solution.reverseParentheses("(ed(et(oc))el)"), "leetcode")
+        self.assertEqual(
+            self.solution.reverseParentheses("a(bcdefghijkl(mno)p)q"),
+            "apmnolkjihgfedcbq",
+        )
+
+
+if __name__ == "__main__":
+    pass
+    unittest.main()
