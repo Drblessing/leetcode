@@ -3,28 +3,33 @@ from collections import deque
 
 
 class Solution:
+
     def reverseParentheses(self, s: str) -> str:
         """Reverse the string inside paranthesis recurisvely starting
-        with the innermost."""
-
-        stack = deque()
-        for l in s:
+        with the innermost. Utilize the wormhole teleportation technique to reverse the string.
+        """
+        n = len(s)
+        teleportation_map = []
+        pair_map = [0] * n
+        # pair up the paranthesis
+        for i, l in enumerate(s):
             if l == "(":
-                stack.append(l)
-
+                teleportation_map.append(i)
             elif l == ")":
-                # pop from stack until we find the matching "("
-                substring = ""
-                while stack[-1] != "(":
-                    substring += stack.pop()
-                # pop "("
-                stack.pop()
-                # reverse string and append
-                stack.extend(substring)
+                j = teleportation_map.pop()
+                pair_map[i], pair_map[j] = j, i
+        # Second pass, teleport around the string
+        i, d = 0, 1
+        result = []
+        while i < n:
+            if s[i] in "()":
+                i = pair_map[i]
+                d = -d
             else:
-                stack.append(l)
+                result.append(s[i])
+            i += d
 
-        return "".join(stack)
+        return "".join(result)
 
 
 class TestSolution(unittest.TestCase):
