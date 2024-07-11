@@ -1,4 +1,4 @@
-from typing import Iterable, Hashable
+from typing import Iterable, Hashable, List
 
 
 class TrieNode:
