@@ -45,4 +45,4 @@ class Solution:
         return result
 
 
-print(Solution().countOfAtoms("(Mg(OH)2)2"))
+print(Solution().countOfAtoms("A(H(OH)2)3"))
