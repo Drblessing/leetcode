@@ -27,46 +27,12 @@ class Solution:
 
         c = Counter()
         c[symbol] = int(numeric_string)
-
-        # Turn counter into a string
-        result_string = ""
-        for key, value in c.items():
-            result_string += key
-            if value != 1:
-                result_string += str(value)
-
-        return result_string, n
-
-    @staticmethod
-    def parse_chemical_symbol_counter(formula: str, n: int) -> tuple:
-        """Parse a chemical symbol and return the index
-        after the symbol and it's string value,
-        and its numeric value"""
-
-        # Get symbol
-        symbol = formula[n]
-        n += 1
-        while n < len(formula) and formula[n].islower():
-            symbol += formula[n]
-            n += 1
-
-        # Get numeric value
-        numeric_string = ""
-        while n < len(formula) and formula[n].isdigit():
-            numeric_string += formula[n]
-            n += 1
-        if not numeric_string:
-            numeric_string = 1
-
-        c = Counter()
-        c[symbol] = int(numeric_string)
-
         return c, n
 
     @staticmethod
     def parse_non_paranthesis(fomula: str, n: int):
         """Parse a string that does not contain any paranthesis."""
-        result = ""
+        result = Counter()
         while n < len(fomula):
             if Solution.is_uppercase_letter(fomula[n]):
                 r, n = Solution.parse_chemical_symbol(fomula, n)
@@ -74,20 +40,6 @@ class Solution:
             else:
                 n += 1
         return result, n
-
-    @staticmethod
-    def final_parse(formula: str):
-        """Parse the final formula and return the count of atoms."""
-        result = Counter()
-        n = 0
-        while n < len(formula):
-            if Solution.is_uppercase_letter(formula[n]):
-                r, n = Solution.parse_chemical_symbol_counter(formula, n)
-                result += r
-
-            else:
-                n += 1
-        return result
 
     @staticmethod
     def is_digit(char: str):
@@ -109,36 +61,49 @@ class Solution:
 
         stack = []
         n = 0
+        result = Counter()
         # Replace parantehsis with a string
         while n < len(formula):
             if formula[n] == "(":
-                stack.append(n)
+                stack.append(Counter())
                 n += 1
             elif formula[n] == ")":
-                start = stack.pop()
-                end = n
-                result, _ = Solution.parse_non_paranthesis(formula[start + 1 : end], 0)
-                # Multiply result by number if it exists
+                c = stack.pop()
+                # Check if there is a number after the paranthesis
                 n += 1
-                number = ""
+                numeric_string = ""
                 while n < len(formula) and formula[n].isdigit():
-                    number += formula[n]
+                    numeric_string += formula[n]
                     n += 1
-                if not number:
-                    number = 1
-                result = result * int(number)
-                formula = formula[:start] + result + formula[n:]
-            else:
-                n += 1
+                if not numeric_string:
+                    numeric_string = 1
+                numeric_value = int(numeric_string)
+                for k, v in c.items():
+                    c[k] = v * numeric_value
+                if stack:
+                    stack[-1] += c
+                else:
+                    result += c
 
-        # Parse the remaining string
-        result = Solution.final_parse(formula)
-        # sort the result
-        result = sorted(result.items(), key=lambda x: x[0])
-        # Turn the result into a string
-        result_string = ""
-        for key, value in result:
-            result_string += key
-            if value != 1:
-                result_string += str(value)
-        return result_string
+            # Must be an uppercase letter
+            else:
+                r, n = Solution.parse_chemical_symbol(formula, n)
+                if stack:
+                    stack[-1] += r
+                else:
+                    result += r
+
+        # Combine all the counters
+        for c in stack:
+            result += c
+
+        # Sort the result
+        print(result)
+        result = dict(sorted(result.items()))
+        result = "".join([f"{k}{v}" if v != 1 else k for k, v in result.items()])
+
+        return result
+
+
+test_string = "Ag3((H2O)2)3"
+print(Solution().countOfAtoms(test_string))
