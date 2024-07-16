@@ -1,47 +1,63 @@
-# Definition for a binary tree node.
-# class TreeNode:
-#     def __init__(self, val=0, left=None, right=None):
-#         self.val = val
-#         self.left = left
-#         self.right = right
 class Solution:
-    def getDirection(self, node, val, path):
-        """Get direction to a node in a tree."""
+    def getDirections(self, root: TreeNode, startValue: int, destValue: int) -> str:
+        # Find the Lowest Common Ancestor (LCA) of start and destination nodes
+        lowest_common_ancestor = self._find_lowest_common_ancestor(
+            root, startValue, destValue
+        )
 
-        if not node:
+        path_to_start = []
+        path_to_dest = []
+
+        # Find paths from LCA to start and destination nodes
+        self._find_path(lowest_common_ancestor, startValue, path_to_start)
+        self._find_path(lowest_common_ancestor, destValue, path_to_dest)
+
+        directions = []
+
+        # Add "U" for each step to go up from start to LCA
+        directions.extend("U" * len(path_to_start))
+
+        # Append the path from LCA to destination
+        directions.extend(path_to_dest)
+
+        return "".join(directions)
+
+    def _find_lowest_common_ancestor(
+        self, node: TreeNode, value1: int, value2: int
+    ) -> TreeNode:
+        if node is None:
+            return None
+
+        if node.val == value1 or node.val == value2:
+            return node
+
+        left_lca = self._find_lowest_common_ancestor(node.left, value1, value2)
+        right_lca = self._find_lowest_common_ancestor(node.right, value1, value2)
+
+        if left_lca is None:
+            return right_lca
+        elif right_lca is None:
+            return left_lca
+        else:
+            return node  # Both values found, this is the LCA
+
+    def _find_path(self, node: TreeNode, target_value: int, path: List[str]) -> bool:
+        if node is None:
             return False
 
-        if node.val == val:
+        if node.val == target_value:
             return True
 
-        if self.getDirection(node.left, val, path):
-            path.append("L")
+        # Try left subtree
+        path.append("L")
+        if self._find_path(node.left, target_value, path):
             return True
-        if self.getDirection(node.right, val, path):
-            path.append("R")
+        path.pop()  # Remove last character
+
+        # Try right subtree
+        path.append("R")
+        if self._find_path(node.right, target_value, path):
             return True
+        path.pop()  # Remove last character
 
         return False
-
-    def getDirections(
-        self, root: Optional[TreeNode], startValue: int, destValue: int
-    ) -> str:
-        """Get direction froms start to dest."""
-
-        start_path = []
-        self.getDirection(root, startValue, start_path)
-        dest_path = []
-        self.getDirection(root, destValue, dest_path)
-        start_path.reverse()
-        dest_path.reverse()
-
-        # Strip common ancestors from start and dest
-        while start_path and dest_path and start_path[0] == dest_path[0]:
-            start_path.pop(0)
-            dest_path.pop(0)
-
-        # Turn start path into "U"
-        for i in range(len(start_path)):
-            start_path[i] = "U"
-
-        return "".join(start_path + dest_path)
