@@ -1,14 +1,39 @@
+# Definition for a binary tree node.
+class TreeNode:
+    def __init__(self, val=0, left=None, right=None):
+        self.val = val
+        self.left = left
+        self.right = right
+
+
 class Solution:
-    def searchBST(self, root: Optional[TreeNode], val: int) -> Optional[TreeNode]:
-        """Search a BST for a value with short-circuiting."""
-        current = root
+    def countPairs(self, root: TreeNode, distance: int) -> int:
+        self.pair_count = 0
 
-        while current:
-            if current.val == val:
-                return current  # Found the value
-            elif val < current.val:
-                current = current.left  # Go left
-            else:
-                current = current.right  # Go right
+        def dfs(node):
+            if not node:
+                return {}
 
-        return None  # Value not found
+            if not node.left and not node.right:
+                return {1: 1}  # Leaf node: distance 1, count 1
+
+            left = dfs(node.left)
+            right = dfs(node.right)
+
+            # Count pairs
+            for l_dist, l_count in left.items():
+                for r_dist, r_count in right.items():
+                    if l_dist + r_dist <= distance:
+                        self.pair_count += l_count * r_count
+
+            # Prepare current node's distance map
+            current = {}
+            for dist, count in left.items():
+                current[dist + 1] = count
+            for dist, count in right.items():
+                current[dist + 1] = current.get(dist + 1, 0) + count
+
+            return current
+
+        dfs(root)
+        return self.pair_count
