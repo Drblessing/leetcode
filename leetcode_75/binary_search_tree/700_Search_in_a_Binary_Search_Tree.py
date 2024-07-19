@@ -1,4 +1,7 @@
 # Definition for a binary tree node.
+from collections import defaultdict
+
+
 class TreeNode:
     def __init__(self, val=0, left=None, right=None):
         self.val = val
@@ -27,11 +30,11 @@ class Solution:
                         self.pair_count += l_count * r_count
 
             # Prepare current node's distance map
-            current = {}
+            current = defaultdict(int)
             for dist, count in left.items():
                 current[dist + 1] = count
             for dist, count in right.items():
-                current[dist + 1] = current.get(dist + 1, 0) + count
+                current[dist + 1] += count
 
             return current
 
