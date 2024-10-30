@@ -1,2 +1,1 @@
-A collection of my leetcode solutions! 
-a
+A collection of my leetcode solutions!
