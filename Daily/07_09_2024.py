@@ -44,13 +44,3 @@ def test_case_2():
     expected = 3.25000
     result = solution.averageWaitingTime(customers)
     assert abs(result - expected) < 1e-5
-
-
-def test_dummy():
-    # A simple dummy test
-    assert 2 == 2
-
-
-# Run pytest when executing this file directly
-if __name__ == "__main__":
-    pytest.main(["-v", "-s"])
