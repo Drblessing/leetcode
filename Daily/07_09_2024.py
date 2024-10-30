@@ -1,5 +1,5 @@
 from typing import List
-import pytest
+import unittest
 
 
 class Solution:
@@ -29,18 +29,24 @@ class Solution:
         return cum_wait_tim / len(customers)
 
 
-# Test cases using pytest
-def test_case_1():
-    solution = Solution()
-    customers = [[1, 2], [2, 5], [4, 3]]
-    expected = 5.00000
-    result = solution.averageWaitingTime(customers)
-    assert abs(result - expected) < 1e-5
+# Test cases using unittest
+class TestSolution(unittest.TestCase):
+    def setUp(self):
+        self.solution = Solution()
+
+    def test_case_1(self):
+        customers = [[1, 2], [2, 5], [4, 3]]
+        expected = 5.00000
+        result = self.solution.averageWaitingTime(customers)
+        self.assertAlmostEqual(result, expected, places=5)
+
+    def test_case_2(self):
+        customers = [[5, 2], [5, 4], [10, 3], [20, 1]]
+        expected = 3.25000
+        result = self.solution.averageWaitingTime(customers)
+        self.assertAlmostEqual(result, expected, places=5)
 
 
-def test_case_2():
-    solution = Solution()
-    customers = [[5, 2], [5, 4], [10, 3], [20, 1]]
-    expected = 3.25000
-    result = solution.averageWaitingTime(customers)
-    assert abs(result - expected) < 1e-5
+# Run unittest when executing this file directly
+if __name__ == "__main__":
+    unittest.main(verbosity=2)
