@@ -23,7 +23,7 @@ class Solution:
             if s[i] == s[i - 1] == s[i + 1]:
                 continue
             output += s[i]
-        return output + s[-1]
+        return outqput + s[-1]
 
 
 # "leeetcode" -> "leetcode"
