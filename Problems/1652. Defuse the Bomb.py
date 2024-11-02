@@ -1,54 +1,59 @@
 from typing import List
-import unittest
-import itertools
 
 
 class Solution:
     def decrypt(self, code: List[int], k: int) -> List[int]:
-        """Defuse the bomb by decrypting the code.
-        k is the decryption key.
-        If k > 0, replace the ith number with the sum of the next k numbers.
-        If k < 0, replace the ith number with the sum of the previous k numbers.
-        If k == 0, replace the ith number with 0.
-        -(n-1) <= k <= n - 1
-        The code is a circular array of length n.
         """
+        Decrypts the given code array based on the integer k.
 
+        If k > 0, sums the next k elements for each index.
+        If k < 0, sums the previous |k| elements for each index.
+        If k == 0, returns an array of zeros.
+
+        Parameters:
+        code (List[int]): The list of integers to decrypt.
+        k (int): The number indicating how many positions to sum.
+
+        Returns:
+        List[int]: The decrypted array.
+        """
         n = len(code)
+        result = [0] * n  # Initialize result array with zeros
 
-        # If k is 0 return a list of n zeros.
+        # Case when k is zero, return an array of zeros
         if k == 0:
-            return [0] * n
+            return result
 
-        # Prepend/append the code to itself k times to handle circularity.
         if k > 0:
-            code = code + code[:k]
+            # Traverse each index to calculate the sum of the next k elements
+            for current_index in range(n):
+                current_sum = 0  # Initialize sum for the current index
+                next_index = current_index
+                for _ in range(k):
+                    # Move to the next element in a circular manner
+                    next_index = (next_index + 1) % n
+                    current_sum += code[next_index]
+                result[current_index] = current_sum
         else:
-            code = code[k:] + code
+            # Case when k is negative: sum the previous |k| elements
+            num_elements = -k  # Convert k to a positive number
+            for current_index in range(n):
+                current_sum = 0  # Initialize sum for the current index
+                prev_index = current_index
+                for _ in range(num_elements):
+                    # Move to the previous element in a circular manner
+                    prev_index = (prev_index - 1) % n
+                    current_sum += code[prev_index]
+                result[current_index] = current_sum
 
-        # Initialize the result list.
-        res = []
-
-        # Handle the case when k is positive.
-        if k > 0:
-            for i in range(n):
-                res.append(sum(code[i + 1 : i + 1 + k]))
-        # Handle the case when k is negative.
-        else:
-            for i in range(n):
-                res.append(sum(code[i : i - k]))
-
-        return res
+        return result
 
 
 # Test cases
-# Input: code = [5, 7, 1, 4], k = 3
-# Output: [12, 10, 16, 13]
-# Input: code = [1, 2, 3, 4], k = 0
-# Output: [0, 0, 0, 0]
-# Input: code = [2, 4, 9, 3], k = -2
-# Output: [12, 5, 6, 13]
-class Test(unittest.TestCase):
+import unittest
+
+
+class TestSolution(unittest.TestCase):
     def test_decrypt(self):
         solution = Solution()
         self.assertEqual(solution.decrypt([5, 7, 1, 4], 3), [12, 10, 16, 13])
