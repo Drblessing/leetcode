@@ -8,4 +8,4 @@ def pivotTable(weather: pd.DataFrame) -> pd.DataFrame:
     Pivoting a table means to rotate the table around a column. It usually transforms
     a long table into a wide table."""
 
-    return weather.pivot_table(index="Date", columns="City", values="Temperature")
+    return weather.pivot(index="month", columns="city", values="temperature")
