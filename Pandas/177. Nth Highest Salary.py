@@ -1,18 +1,21 @@
 import pandas as pd
 
 
-def second_highest_salary(employee: pd.DataFrame) -> pd.DataFrame:
-    """Return the second highest salary of an employee.
-    If there is no second highest salary, return null dataframe."""
+def nth_highest_salary(employee: pd.DataFrame, N: int) -> pd.DataFrame:
+    """Return the Nth highest salary of an employee.
+    If there is no Nth highest salary, return null dataframe."""
+
+    # Create column name
+    column_name = f"getNthHighestSalary({N})"
 
     # Drop duplicates
     df = employee.drop_duplicates(subset=["salary"])["salary"]
 
-    # Check if there is a second highest salary
-    if len(df) < 2:
-        return pd.DataFrame({"SecondHighestSalary": [None]})
+    # Check if there is a Nth highest salary
+    if len(df) < N or N < 1:
+        return pd.DataFrame({column_name: [None]})
 
-    # Return the second highest salary
-    second_highest_salary = df.nlargest(2).iloc[-1]
+    # Return the Nth highest salary
+    nth_highest_salary = df.nlargest(N).iloc[-1]
 
-    return pd.DataFrame({"SecondHighestSalary": [second_highest_salary]})
+    return pd.DataFrame({column_name: [nth_highest_salary]})
