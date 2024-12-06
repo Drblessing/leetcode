@@ -24,27 +24,21 @@ def average_selling_price(
     )
 
     # Calculate the average price.
-    df["average_price"] = df["total_revenue"] / df["units_sold"]
+    df["average_price"] = (df["total_revenue"] / df["units_sold"]).round(2)
     df = df.reset_index()[["product_id", "average_price"]]
 
-    # Round the average price to two decimal places.
-    df["average_price"] = df["average_price"].round(2)
+    # Find the missing product_ids.
+    missing_products = set(prices["product_id"]) - set(units_sold["product_id"])
 
-    # Get set of product_ids from prices table.
-    product_ids = prices["product_id"].unique()
-
-    # Get the missing product_ids from the units_sold table.
-    missing_product_ids = set(df["product_id"]) ^ set(product_ids)
-
-    # Create a DataFrame for the missing product_ids.
+    # Add the missing product_ids to the DataFrame.
     missing_df = pd.DataFrame(
         {
-            "product_id": list(missing_product_ids),
-            "average_price": [0] * len(missing_product_ids),
+            "product_id": list(missing_products),
+            "average_price": [0] * len(missing_products),
         }
     )
 
-    # Concatenate the missing product_ids to the DataFrame.
+    # Concatenate the DataFrames.
     df = pd.concat([df, missing_df])
 
     return df
